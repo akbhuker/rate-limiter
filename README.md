@@ -4,6 +4,10 @@ A distributed rate limiter and traffic shaper for Node.js. Request admission is 
 
 Built to sit in front of APIs and internal microservices to bound abuse: DDoS bursts, credential-stuffing, and resource exhaustion.
 
+**Live demo:** https://guardrail-y843.onrender.com
+
+> Hosted on a free instance that sleeps when idle; the first request may take ~30s to cold-start.
+
 ## Contents
 
 - [Motivation](#motivation)
