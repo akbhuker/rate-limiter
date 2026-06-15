@@ -1,0 +1,63 @@
+{
+  "name": "guardrail",
+  "version": "1.0.0",
+  "description": "High-throughput distributed rate limiter & traffic shaper. Atomic Redis Lua algorithms (sliding-window, token-bucket), dynamic per-tier limits, Express/Fastify middleware, Prometheus metrics.",
+  "keywords": [
+    "rate-limiter",
+    "rate-limiting",
+    "redis",
+    "lua",
+    "sliding-window",
+    "token-bucket",
+    "ddos",
+    "traffic-shaping",
+    "api-gateway",
+    "express",
+    "fastify",
+    "middleware"
+  ],
+  "license": "MIT",
+  "author": "Ankit Kumar",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && cp -r src/core/lua dist/core/lua",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "bench": "tsx bench/throughput.ts",
+    "seed": "tsx examples/seed-tiers.ts",
+    "demo": "tsx examples/seed-tiers.ts && tsx examples/express-server.ts",
+    "example:express": "tsx examples/express-server.ts",
+    "example:fastify": "tsx examples/fastify-server.ts",
+    "redis:up": "docker compose up -d redis",
+    "redis:down": "docker compose down"
+  },
+  "dependencies": {
+    "ioredis": "^5.4.1",
+    "prom-client": "^15.1.3"
+  },
+  "peerDependencies": {
+    "express": "^4 || ^5",
+    "fastify": "^4 || ^5"
+  },
+  "peerDependenciesMeta": {
+    "express": { "optional": true },
+    "fastify": { "optional": true }
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.0",
+    "express": "^5.0.1",
+    "fastify": "^5.1.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

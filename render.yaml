@@ -1,0 +1,34 @@
+# Render Blueprint — deploys the gateway + a free Redis in one click.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Usage:
+#   1. Push this repo to GitHub.
+#   2. Render Dashboard → New → Blueprint → pick this repo → Apply.
+# Render reads this file, builds the Docker image, provisions the Key Value
+# (Redis) instance, and wires REDIS_URL automatically.
+services:
+  - type: web
+    name: guardrail
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Injected from the Key Value instance below — no secret to manage.
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: guardrail-redis
+          property: connectionString
+
+  # Free Redis. Counters are ephemeral by design (TTL'd), so the free plan's
+  # lack of disk persistence is irrelevant for a rate limiter.
+  - type: keyvalue
+    name: guardrail-redis
+    plan: free
+    region: oregon
+    ipAllowList: [] # empty = reachable only from your Render services (private)
+    maxmemoryPolicy: allkeys-lru
