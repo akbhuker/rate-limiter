@@ -1,0 +1,21 @@
+name: keep-warm
+
+# Render's free web service sleeps after ~15 min idle. This pings the health
+# endpoint on a schedule to keep the demo warm so recruiters don't hit a
+# cold-start delay. Runs entirely on GitHub's free Actions minutes.
+
+on:
+  schedule:
+    # Every 10 minutes. GitHub cron is best-effort and can be delayed under
+    # load, which is fine — an occasional missed tick just means one cold start.
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping /health
+        run: |
+          curl -fsS --retry 3 --retry-delay 10 --max-time 90 \
+            https://guardrail-y843.onrender.com/health

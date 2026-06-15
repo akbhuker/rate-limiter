@@ -6,7 +6,7 @@ Built to sit in front of APIs and internal microservices to bound abuse: DDoS bu
 
 **Live demo:** https://guardrail-y843.onrender.com
 
-> Hosted on a free instance that sleeps when idle; the first request may take ~30s to cold-start.
+> Hosted on a free instance. A scheduled GitHub Action ([`keep-warm.yml`](.github/workflows/keep-warm.yml)) pings it to avoid cold starts; if it has been idle, the first request may take ~30s.
 
 ## Contents
 
